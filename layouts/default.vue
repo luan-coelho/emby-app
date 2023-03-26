@@ -1,4 +1,5 @@
 <template>
+    <Toast />
     <AppHeader/>
     <slot />
 </template>

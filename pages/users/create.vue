@@ -1,13 +1,13 @@
 <template>
-  <div>
+  <div class='m-4'>
     <form @submit.prevent='handleSubmit'>
       <div class='flex flex-column gap-2'>
         <label for='username'>Username</label>
-        <InputText id='username' v-model='user.name' aria-describedby='username-help' />
+        <InputText id='username' v-model='user.Name' aria-describedby='username-help' />
       </div>
 
-      <div class='mt-2'>
-        <Button type='submit' icon='pi pi-check' label='Create' severity='success' size='small' />
+      <div class='mt-2 flex align-content-start align-items-center justify-content-end'>
+        <Button type='submit' icon='pi pi-check' label='Cadastrar' severity='success' size='small' />
       </div>
     </form>
   </div>
@@ -15,19 +15,45 @@
 
 <script setup lang='ts'>
 import EmbyUser from '~/types/embyUser';
+import { useToast } from 'primevue/usetoast';
+
+const router = useRouter();
+const toast = useToast();
 
 const user = ref({} as EmbyUser);
 
 function handleSubmit() {
-  const embyApiKey = 'a2037633a1df4438a80a971c4ea74d83';
-  const headers = {
-    'X-Emby-Token': embyApiKey,
-    'X-Emby-Client': 'Emby Client'
-  };
-  $fetch('http://localhost:8096/users/new', {
-    headers: headers,
-    method: 'POST',
-    body: JSON.stringify(user.value)
-  });
+  if (validateFields()) {
+    const embyApiKey = 'a2037633a1df4438a80a971c4ea74d83';
+    const headers = {
+      'X-Emby-Token': embyApiKey,
+      'X-Emby-Client': 'Emby Client'
+    };
+    $fetch('http://localhost:8096/users/new', {
+      headers: headers,
+      method: 'POST',
+      body: JSON.stringify(user.value)
+    });
+    router.push('/users')
+  }
+}
+
+function validateFields() {
+  let validated = true;
+
+  console.log(user.value.Name);
+  if (!user.value.Name) {
+    showErrorMessage('O campo nome não deve ser vazio');
+    validated = false;
+  }
+  return validated;
+}
+
+function showSuccessMessage(detail: string) {
+  toast.add({ severity: 'success', summary: 'Sucesso', detail: detail, life: 3000 });
+}
+
+function showErrorMessage(detail: string) {
+  toast.add({ severity: 'error', summary: 'Validação falhou', detail: detail, life: 3000 });
 }
 </script>

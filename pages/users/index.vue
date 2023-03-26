@@ -4,7 +4,7 @@
       <Button @click="router.push('/users/create')" icon='pi pi-check' label='New' severity='success' size='small' />
     </div>
 
-    <Card class='mt-3 card' v-for='(user) in users' :key='user.id'>
+    <Card class='mt-3 card' v-for='(user) in users' :key='user.Id'>
       <template #title>{{ user.Name }}</template>
       <template #content>
         <p v-if='user.LastActivityDate'>Ultima atividade: {{ formattedDate(user.LastActivityDate) }}</p>
@@ -33,6 +33,9 @@
 
 <script setup lang='ts'>
 import EmbyUser from '~/types/embyUser';
+import { useToast } from 'primevue/usetoast';
+
+const toast = useToast();
 
 const router = useRouter();
 
@@ -62,6 +65,7 @@ function handleDeleteUser(id: number) {
     headers: headers
   });
   fetchUsers();
+  showSuccessMessage('Usuário deletado com sucesso!');
 }
 
 function formattedDate(date: Date): string {
@@ -72,6 +76,10 @@ function formattedDate(date: Date): string {
 const deletionEnabled = computed((): boolean => {
   return users.value.length > 1;
 });
+
+function showSuccessMessage(detail: string) {
+  toast.add({ severity: 'success', summary: 'Sucesso', detail: detail, life: 3000 });
+}
 
 onMounted(() => {
   fetchUsers();
