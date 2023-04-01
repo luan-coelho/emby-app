@@ -34,12 +34,20 @@
         </div>
       </template>
       <template #footer v-if="deletionEnabled">
-        <Button
-          @click="handleDeleteUser(user.Id)"
-          icon="pi pi-times"
-          label="Deletar"
-          severity="danger"
-          size="small" />
+        <div class="flex align-items-center justify-content-end gap-2">
+          <Button
+            @click="$router.push(`/${user.Id}`)"
+            icon="pi pi-pincel"
+            label="Editar"
+            severity="info"
+            size="small" />
+          <Button
+            @click="handleDeleteUser(user.Id)"
+            icon="pi pi-times"
+            label="Deletar"
+            severity="danger"
+            size="small" />
+        </div>
       </template>
     </Card>
   </div>
