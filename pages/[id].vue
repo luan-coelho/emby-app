@@ -51,13 +51,13 @@ onMounted(async () => {
 });
 
 async function getUserById(id: string) {
-  const embyApiKey = 'a2037633a1df4438a80a971c4ea74d83';
+  const embyApiKey = '88921fc0800c4c4998740391f2b83711';
   const headers = {
     'X-Emby-Token': embyApiKey,
     'X-Emby-Client': 'Emby Client'
   };
 
-  const response = await fetch(`http://localhost:8096/users/${id}`, {
+  const response = await fetch(`http://ec2-18-229-162-63.sa-east-1.compute.amazonaws.com:8096/users/${id}`, {
     headers: headers
   });
 
@@ -66,12 +66,12 @@ async function getUserById(id: string) {
 
 function updateUser() {
   if (validateFields()) {
-    const embyApiKey = 'a2037633a1df4438a80a971c4ea74d83';
+    const embyApiKey = '88921fc0800c4c4998740391f2b83711';
     const headers = {
       'X-Emby-Token': embyApiKey,
       'X-Emby-Client': 'Emby Client'
     };
-    fetch(`http://localhost:8096/users/${route.params['id']}`, {
+    fetch(`http://ec2-18-229-162-63.sa-east-1.compute.amazonaws.com:8096/users/${route.params['id']}`, {
       headers: headers,
       method: 'POST',
       body: JSON.stringify({
