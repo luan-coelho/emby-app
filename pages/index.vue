@@ -65,12 +65,12 @@ const router = useRouter();
 const users: Ref<EmbyUser[]> = ref([]);
 
 const fetchUsers = async () => {
-  const embyApiKey = '88921fc0800c4c4998740391f2b83711';
+  const embyApiKey = 'a2037633a1df4438a80a971c4ea74d83';
   const headers = {
     'X-Emby-Token': embyApiKey,
     'X-Emby-Client': 'Emby Client'
   };
-  const response = await $fetch('http://ec2-18-229-162-63.sa-east-1.compute.amazonaws.com:8096/users', { headers });
+  const response = await $fetch('http://localhost:8096/users', { headers });
   if (Array.isArray(response)) {
     users.value = response as EmbyUser[];
   }
